@@ -5,9 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,13 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Home() {
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
 
     return (
         <React.Fragment>
         <CssBaseline />
         <Container fixed>
-          <h2>Добре дошли, (Potrebitel)</h2>
+        <Typography variant="h5" component="h2">Добре дошъл (potrebitel)</Typography>
                 <Grid container direction="row" justify="space-between" alignItems="left">
                     <Card className={classes.card} variant="outlined">
                         <CardContent>
@@ -86,7 +84,6 @@ export default function Home() {
                             </Typography>
                         </CardContent>
                     </Card>
-
                 </Grid>
         </Container>
       </React.Fragment>

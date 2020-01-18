@@ -9,6 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import HeaderBar from './structures/HeaderBar';
+import Login from './components/Login';
 
 const drawerWidth = 240;
 
@@ -61,6 +62,7 @@ export default function App() {
                     <Switch>
                         <Route path="/" exact component={Home} />
                         <Route path="/my/notes" component={Notes} />
+                        <Route path="/user/signin" component={Login} />
                     </Switch>
                 </Typography>
             </main>

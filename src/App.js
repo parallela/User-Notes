@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { AnimatedSwitch } from 'react-router-transition';
 import Home from './components/Home';
 import Notes from './components/Notes';
 import Navbar from './structures/Navbar';
@@ -59,11 +60,17 @@ export default function App() {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Typography paragraph>
-                    <Switch>
-                        <Route path="/" exact component={Home} />
-                        <Route path="/my/notes" component={Notes} />
-                        <Route path="/user/signin" component={Login} />
-                    </Switch>
+                      <AnimatedSwitch
+                      atEnter={{ opacity: 0 }}
+                      atLeave={{ opacity: 0 }}
+                      atActive={{ opacity: 1 }}
+                      className="switch-wrapper"
+                      >
+                          <Route path="/" exact component={Home} />
+                          <Route path="/my/notes" component={Notes} />
+                          <Route path="/see/:slug" />
+                          <Route path="/user/signin" component={Login} />
+                      </AnimatedSwitch>
                 </Typography>
             </main>
         </div>

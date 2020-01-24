@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 275,
         display: 'flex' 
     },
+    welcome: {
+        margin: "0 2% 2% 0"
+    },
     bullet: {
         display: 'inline-block',
         margin: '0 2px',
@@ -41,7 +44,7 @@ export default function Home() {
         <React.Fragment>
         <CssBaseline />
         <Container fixed>
-        <Typography variant="h5" component="h2">Добре дошъл (potrebitel)</Typography>
+        <Typography variant="h5" component="h2" className={classes.welcome}>Добре дошъл (potrebitel)</Typography>
                 <Grid container direction="row" justify="space-between" alignItems="left">
                     <Card className={classes.card} variant="outlined">
                         <CardContent>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -12,7 +14,8 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 345,
+    width: '25%',
+    margin: '0 2% 2% 0'
   },
   media: {
     height: 140,
@@ -22,49 +25,54 @@ const useStyles = makeStyles({
 export default function Notes() {
   const classes = useStyles();
   const [hasError, setErrors] = useState(false);
-  const [notes, setNotes] = useState({});
+  const [notes, setNotes] = useState([]);
+
+  async function fetchData() {
+    const res = await fetch(window.$apiURL + "/user/1/notes",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    res
+      .json()
+      .then(res => setNotes(res))
+      .catch(err => setErrors(err));
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("https://localhost:5000/api/user/1/notes");
-      res
-        .json()
-        .then(res => setNotes(res))
-        .catch(err => setErrors(err));
-    }
-
     fetchData();
-  });
+  },[]);
 
     return (
-        <Grid container direction="row" justify="space-evenly" alignItems="left">
-            <div>{JSON.stringify(notes)}</div>
-            <Card className={classes.card}>
-                    <CardActionArea>
-                        <CardMedia
-                        className={classes.media}
-                        image="https://i.imgur.com/s4W5rIY.jpg"
-                        title="Contemplative Reptile"
-                        />
-                        <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            Lizard
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                            across all continents except Antarctica
-                        </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button size="small" color="primary">
-                        Пусни публично
-                        </Button>
-                        <Button size="small" color="primary">
-                        ВИЖ
-                        </Button>
-                    </CardActions>
-                </Card>
+        <Grid container direction="row" justify="flex-start" alignItems="flex-start">
+            {notes.map((note,key) => (
+                          <Card className={classes.card} key={key}>
+                          <CardActionArea>
+                              <CardMedia
+                              className={classes.media}
+                              image={note[5]}
+                              title={note[1]}
+                              />
+                              <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                  {note[1]}
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                  {note[4].substring(0,60)}...
+                              </Typography>
+                              </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                              <Button size="small" color="primary">
+                              Пусни публично
+                              </Button>
+                                <Button size="small" component={Link} to={"/see/"+note[2]} color="primary">
+                                ВИЖ
+                                </Button>
+                          </CardActions>
+                      </Card>
+            ))}
         </Grid>
     );
 }

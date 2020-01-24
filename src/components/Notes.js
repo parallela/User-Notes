@@ -51,15 +51,15 @@ export default function Notes() {
                           <CardActionArea>
                               <CardMedia
                               className={classes.media}
-                              image={note[5]}
-                              title={note[1]}
+                              image={note.image}
+                              title={note.title}
                               />
                               <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">
-                                  {note[1]}
+                                  {note.title}
                               </Typography>
                               <Typography variant="body2" color="textSecondary" component="p">
-                                  {note[4].substring(0,60)}...
+                                  {note.content.substring(0,60)}...
                               </Typography>
                               </CardContent>
                           </CardActionArea>
@@ -67,7 +67,7 @@ export default function Notes() {
                               <Button size="small" color="primary">
                               Пусни публично
                               </Button>
-                                <Button size="small" component={Link} to={"/see/"+note[2]} color="primary">
+                                <Button size="small" component={Link} to={"/see/"+note.slug} color="primary">
                                 ВИЖ
                                 </Button>
                           </CardActions>

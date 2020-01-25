@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import HeaderBar from './structures/HeaderBar';
 import Login from './components/Login';
+import Auth from './components/Auth';
 
 const drawerWidth = 240;
 
@@ -66,10 +67,12 @@ export default function App() {
                       atActive={{ opacity: 1 }}
                       className="switch-wrapper"
                       >
-                          <Route path="/" exact component={Home} />
-                          <Route path="/my/notes" component={Notes} />
                           <Route path="/see/:slug" />
-                          <Route path="/user/signin" component={Login} />
+                          <Route path="/user/login" component={Login} />
+                          <Auth>
+                            <Route path="/" exact component={Home} />
+                            <Route path="/my/notes" component={Notes} />
+                         </Auth>
                       </AnimatedSwitch>
                 </Typography>
             </main>

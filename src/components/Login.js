@@ -1,10 +1,11 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import { getJwtToken } from '../helpers/jwt';
+import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -34,6 +35,42 @@ const useStyles = makeStyles(theme => ({
 
 export default function Login() {
   const classes = useStyles();
+  const history = useHistory();
+  const  [email, setEmail] = useState("");
+  const  [password, setPassword] = useState("");
+
+  const submitLogin = () => {
+    const details = {
+      "email": email,
+      "password": password
+    }
+
+    fetch(window.$apiURL + '/user/login', 
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(details),
+    }
+    ).then((res) => {
+      return res.json()
+    }).then((data) => {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('refresh-token', data.refresh_token);
+      history.push('/')
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  useEffect(() => {
+      const jwt_token = getJwtToken()
+      if(jwt_token) {
+        history.push('/');
+      }
+      document.title = "Notes.BG | Влизане";
+  },[]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -43,17 +80,18 @@ export default function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Влез в Notes.BG
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={e => { e.preventDefault(); }}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Е-Поща"
             name="email"
+            onChange={e => setEmail(e.target.value)}
             autoComplete="email"
             autoFocus
           />
@@ -63,14 +101,11 @@ export default function Login() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Парола"
             type="password"
+            onChange={e => setPassword(e.target.value)}
             id="password"
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="submit"
@@ -78,18 +113,19 @@ export default function Login() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitLogin}
           >
-            Sign In
+            Влез
           </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                Забравих си паролата!
               </Link>
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"Нямам акаунт"}
               </Link>
             </Grid>
           </Grid>

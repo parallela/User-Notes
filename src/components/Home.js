@@ -1,5 +1,8 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { getJwtToken } from '../helpers/jwt';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -39,12 +42,39 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Home() {
     const classes = useStyles();
+    const [user,setUserData] = useState([]);
+    const history = useHistory();
+
+    useEffect(() => {
+        document.title = "Notes.BG | Начало";
+        const jwt_token = getJwtToken()
+        if(!jwt_token) {
+          history.push('/user/login');
+        }
+
+
+        fetch(window.$apiURL + '/user',
+        {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer "+localStorage.getItem('token')
+            },
+        }
+        ).then((res)=>{
+            return res.json()
+        }).then((data) => {
+            setUserData(data);
+        }).catch(err => {
+            // TODO ERROR
+        });
+    },[]);
 
     return (
         <React.Fragment>
         <CssBaseline />
         <Container fixed>
-        <Typography variant="h5" component="h2" className={classes.welcome}>Добре дошъл (potrebitel)</Typography>
+        <Typography variant="h5" component="h2" className={classes.welcome}>Добре дошъл {user.username}</Typography>
                 <Grid container direction="row" justify="space-between" alignItems="left">
                     <Card className={classes.card} variant="outlined">
                         <CardContent>

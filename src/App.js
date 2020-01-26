@@ -1,6 +1,8 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { getJwtToken } from './helpers/jwt';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { AnimatedSwitch } from 'react-router-transition';
 import Home from './components/Home';
 import Notes from './components/Notes';
@@ -11,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import HeaderBar from './structures/HeaderBar';
 import Login from './components/Login';
+import Register from './components/Register';
 import Auth from './components/Auth';
 
 const drawerWidth = 240;
@@ -36,14 +39,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
+
 export default function App() {
     const classes = useStyles();
+    const [token, setToken] = useState("");
 
     return (
     <Router>
         <div className={classes.root}>
             <CssBaseline />
             <HeaderBar /> 
+            {localStorage.getItem('token') &&
             <Drawer
                 className={classes.drawer}
                 variant="permanent"
@@ -52,12 +58,11 @@ export default function App() {
                 }}
             >
                 <div className={classes.toolbar} />
-
-                <Divider />
                 
+        
                 <Navbar />
-
             </Drawer>
+            }
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Typography paragraph>
@@ -69,6 +74,7 @@ export default function App() {
                       >
                           <Route path="/see/:slug" />
                           <Route path="/user/login" component={Login} />
+                          <Route path="/user/register" component={Register} />
                           <Auth>
                             <Route path="/" exact component={Home} />
                             <Route path="/my/notes" component={Notes} />

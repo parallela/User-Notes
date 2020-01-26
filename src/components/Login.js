@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -38,12 +39,19 @@ export default function Login() {
   const history = useHistory();
   const  [email, setEmail] = useState("");
   const  [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [errors,setErrors] = useState(false);
+  const [errormsg,setErrorMsg] = useState("");
 
   const submitLogin = () => {
     const details = {
       "email": email,
       "password": password
     }
+
+    validateEmail(details.email);
+    validatePassword(details.psasword);
 
     fetch(window.$apiURL + '/user/login', 
     {
@@ -54,36 +62,75 @@ export default function Login() {
       body: JSON.stringify(details),
     }
     ).then((res) => {
+      if(res.status === 401) {
+        setEmailError("Невалидни данни за вход!");
+      }
+      if(res.status === 403) {
+        res.json().then(data => {
+          setEmailError(data.error);
+          setErrorMsg("Моля първо потвърдете акаунта си от вашата е-поща!")
+        });
+      }
       return res.json()
     }).then((data) => {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('refresh-token', data.refresh_token);
-      history.push('/')
-    }).catch(err => {
-      console.log(err);
-    })
+      if(data.token !== undefined) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('refresh-token', data.refresh_token);
+        setErrors(false);
+        setEmailError("");
+        history.push('/');
+      }
+    }).catch(err => setErrors(true))
   }
+
+  function validateEmail(email) {
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    var validate = regex.test(email);
+
+    if(validate === false) {
+      setEmailError("Невалидна Е-поща");
+    } else {
+      setEmailError("");
+    }
+    
+    if(email === "") {
+      setEmailError("Моля въведете Е-Поща");
+    }
+  }
+
+  function validatePassword(password) {
+    if(password === "") {
+      setPasswordError("Моля въведете парола");
+    } else {
+      setPasswordError("");
+    }
+  }
+  document.title = "Notes.BG | Влизане";
 
   useEffect(() => {
       const jwt_token = getJwtToken()
       if(jwt_token) {
         history.push('/');
       }
-      document.title = "Notes.BG | Влизане";
-  },[]);
+  },[email,password]);
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        {errors &&
+           <Alert severity="error">{errormsg}</Alert>
+        }
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Влез в Notes.BG
         </Typography>
-        <form className={classes.form} onSubmit={e => { e.preventDefault(); }}>
+        <form className={classes.form} onSubmit={e => { e.preventDefault(); }} noValidate>
           <TextField
+            helperText={emailError}
+            error={emailError !== ""}
             variant="outlined"
             margin="normal"
             required
@@ -96,6 +143,8 @@ export default function Login() {
             autoFocus
           />
           <TextField
+            helperText={passwordError}
+            error={passwordError !== ""}
             variant="outlined"
             margin="normal"
             required
@@ -124,8 +173,8 @@ export default function Login() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Нямам акаунт"}
+              <Link href="/user/register" variant="body2">
+                {"Регистрирай се!"}
               </Link>
             </Grid>
           </Grid>

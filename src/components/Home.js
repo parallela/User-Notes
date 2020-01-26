@@ -74,7 +74,7 @@ export default function Home() {
         <React.Fragment>
         <CssBaseline />
         <Container fixed>
-        <Typography variant="h5" component="h2" className={classes.welcome}>Добре дошъл {user.username}</Typography>
+        <Typography variant="h5" component="h2" className={classes.welcome}>Добре дошъл {user.lenght === 0  ? "зареждане..." : user.username}</Typography>
                 <Grid container direction="row" justify="space-between" alignItems="left">
                     <Card className={classes.card} variant="outlined">
                         <CardContent>

@@ -1,8 +1,7 @@
 import React from 'react';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { getJwtToken } from '../helpers/jwt';
+import {createStyles, Theme, makeStyles} from '@material-ui/core/styles';
+import {useState, useEffect} from 'react';
+import {isLogged} from '../components/isLogged';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -12,80 +11,105 @@ import CardContent from '@material-ui/core/CardContent';
 
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    toolbar: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
-      padding: theme.spacing(3),
-    },
-    card: {
-        width: 275,
-        display: 'flex' 
-    },
-    welcome: {
-        margin: "0 2% 2% 0"
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-  }),
+    createStyles({
+        toolbar: theme.mixins.toolbar,
+        content: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.default,
+            padding: theme.spacing(3),
+        },
+        card: {
+            width: 275,
+            display: 'flex'
+        },
+        welcome: {
+            margin: "0 2% 2% 0"
+        },
+        bullet: {
+            display: 'inline-block',
+            margin: '0 2px',
+            transform: 'scale(0.8)',
+        },
+        title: {
+            fontSize: 14,
+        },
+        pos: {
+            marginBottom: 12,
+        },
+    }),
 );
 
 export default function Home() {
     const classes = useStyles();
-    const [user,setUserData] = useState([]);
-    const history = useHistory();
+    const [user, setUserData] = useState([]);
+    const [statistic, setStatistic] = useState([]);
+    document.title = "Notes.BG | Начало";
 
-    useEffect(() => {
-        document.title = "Notes.BG | Начало";
-        const jwt_token = getJwtToken()
-        if(!jwt_token) {
-          history.push('/user/login');
-        }
+    if (!isLogged()) {
+        window.location = '/user/login';
+    }
 
-
-        fetch(window.$apiURL + '/user',
-        {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer "+localStorage.getItem('token')
-            },
-        }
-        ).then((res)=>{
+    async function getUserData() {
+        await fetch(window.$apiURL + '/user',
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem('token')
+                },
+            }
+        ).then((res) => {
+            if (res.status === 401) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('refresh_token');
+                window.location.href = '/user/login';
+            }
             return res.json()
         }).then((data) => {
             setUserData(data);
-        }).catch(err => {
-            // TODO ERROR
         });
-    },[]);
+    }
+
+    async function getUserStatistic() {
+        await fetch(window.$apiURL + '/user/stats',
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem('token')
+                },
+            }
+        ).then((res) => {
+            return res.json();
+        }).then((data) => {
+            setStatistic(data);
+        })
+    }
+
+    useEffect(() => {
+        getUserData();
+        getUserStatistic();
+    }, []);
 
     return (
         <React.Fragment>
-        <CssBaseline />
-        <Container fixed>
-        <Typography variant="h5" component="h2" className={classes.welcome}>Добре дошъл {user.lenght === 0  ? "зареждане..." : user.username}</Typography>
-                <Grid container direction="row" justify="space-between" alignItems="left">
+            <CssBaseline/>
+            <Container fixed>
+                <Typography variant="h5" component="h2" className={classes.welcome}>Добре
+                    дошъл {user.lenght === 0 ? "зареждане..." : user.username}
+                </Typography>
+                <Grid container direction="row" justify="space-between" alignItems="flex-start">
+
                     <Card className={classes.card} variant="outlined">
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Вашите бележки
+                                Вашите бележки
                             </Typography>
                             <Typography variant="h5" component="h2">
-                            100
+                                {statistic.user_private_notes_amount}
                             </Typography>
                             <Typography className={classes.pos} color="textSecondary">
-                            активни публични
+                                (лични)
                             </Typography>
                         </CardContent>
                     </Card>
@@ -93,13 +117,13 @@ export default function Home() {
                     <Card className={classes.card} variant="outlined">
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Вашите бележки
+                                Вашите бележки
                             </Typography>
                             <Typography variant="h5" component="h2">
-                            100
+                                {statistic.user_public_notes_amount}
                             </Typography>
                             <Typography className={classes.pos} color="textSecondary">
-                            активни публични
+                                (публични)
                             </Typography>
                         </CardContent>
                     </Card>
@@ -107,18 +131,19 @@ export default function Home() {
                     <Card className={classes.card} variant="outlined">
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Вашите бележки
+                                Копирани
                             </Typography>
                             <Typography variant="h5" component="h2">
-                            100
+                                {statistic.user_note_copies}
                             </Typography>
                             <Typography className={classes.pos} color="textSecondary">
-                            активни публични
+                                (направени дубликати)
                             </Typography>
                         </CardContent>
                     </Card>
+
                 </Grid>
-        </Container>
-      </React.Fragment>
+            </Container>
+        </React.Fragment>
     )
 }

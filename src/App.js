@@ -3,7 +3,6 @@ import {createStyles, Theme, makeStyles} from '@material-ui/core/styles';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {AnimatedSwitch} from 'react-router-transition';
 import Home from './components/Home';
-import {isLogged} from './components/isLogged';
 import Notes from './components/Notes';
 import Navbar from './structures/Navbar';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,6 +15,7 @@ import {createMuiTheme} from '@material-ui/core/styles';
 import Register from './components/Register';
 import Auth from './components/Auth';
 import Logout from "./components/Logout";
+import {getJwtToken} from "./helpers/jwt";
 
 const drawerWidth = 240;
 
@@ -55,7 +55,7 @@ export default function App() {
                     <CssBaseline/>
                     <HeaderBar/>
 
-                    {isLogged() &&
+                    {getJwtToken() &&
                     <Drawer className={classes.drawer} variant="permanent" classes={{paper: classes.drawerPaper,}}>
                         <div className={classes.toolbar}/>
                         <Navbar/>

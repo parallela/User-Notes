@@ -76,7 +76,7 @@ export default function Login() {
                 localStorage.setItem('refresh-token', data.refresh_token);
                 setErrors(false);
                 setEmailError("");
-                window.location = '/'
+                window.location.href = '/'
             }
         }).catch(err => setErrors(true))
     }

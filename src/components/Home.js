@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStyles, Theme, makeStyles} from '@material-ui/core/styles';
 import {useState, useEffect} from 'react';
-import {isLogged} from '../components/isLogged';
 import Container from '@material-ui/core/Container';
+import {getJwtToken} from "../helpers/jwt";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -45,8 +45,8 @@ export default function Home() {
     const [statistic, setStatistic] = useState([]);
     document.title = "Notes.BG | Начало";
 
-    if (!isLogged()) {
-        window.location = '/user/login';
+    if (!getJwtToken()) {
+        window.location.href = '/user/login';
     }
 
     async function getUserData() {
@@ -55,7 +55,7 @@ export default function Home() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + localStorage.getItem('token')
+                    "Authorization": "Bearer " + getJwtToken()
                 },
             }
         ).then((res) => {
@@ -76,7 +76,7 @@ export default function Home() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + localStorage.getItem('token')
+                    "Authorization": "Bearer " + getJwtToken()
                 },
             }
         ).then((res) => {

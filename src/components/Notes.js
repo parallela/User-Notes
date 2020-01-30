@@ -2,7 +2,6 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
-import {isLogged} from '../components/isLogged';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -12,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
+import {getJwtToken} from "../helpers/jwt";
 
 const useStyles = makeStyles({
     card: {
@@ -28,8 +28,8 @@ export default function Notes() {
     const [hasError, setErrors] = useState(false);
     const [notes, setNotes] = useState([]);
 
-    if (!isLogged()) {
-        window.location = '/user/login';
+    if (!getJwtToken()) {
+        window.location.href = '/user/login';
     }
 
     async function fetchData() {
@@ -37,7 +37,7 @@ export default function Notes() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem('token')
+                "Authorization": "Bearer " +  getJwtToken()
             },
         });
         res

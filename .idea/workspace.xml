@@ -2,19 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e17ac4e-a8b7-4ea4-b558-4d91d2c469c9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Logout.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Notes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/jwt.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/jwt.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/structures/HeaderBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/HeaderBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/isLogged.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/structures/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/Navbar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +41,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="js.build_tools.npm">
@@ -75,6 +71,9 @@
       <updated>1580032380563</updated>
       <workItem from="1580032521649" duration="9000" />
       <workItem from="1580158292991" duration="6773000" />
+      <workItem from="1580197839254" duration="3993000" />
+      <workItem from="1580241993704" duration="2057000" />
+      <workItem from="1580413304216" duration="618000" />
     </task>
     <servers />
   </component>
@@ -86,21 +85,39 @@
       <screen x="1366" y="0" width="1360" height="728" />
     </state>
     <state x="1500" y="20" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580160188147" />
-    <state width="385" height="600" key="GridCell.Tab.0.bottom" timestamp="1580166518913">
+    <state x="1776" y="112" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580413832023">
       <screen x="1366" y="0" width="1360" height="728" />
     </state>
-    <state width="385" height="600" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580166518913" />
-    <state width="385" height="600" key="GridCell.Tab.0.center" timestamp="1580166518913">
+    <state x="1776" y="112" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580413832023" />
+    <state width="391" height="566" key="GridCell.Tab.0.bottom" timestamp="1580291504287">
       <screen x="1366" y="0" width="1360" height="728" />
     </state>
-    <state width="385" height="600" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580166518913" />
-    <state width="385" height="600" key="GridCell.Tab.0.left" timestamp="1580166518913">
+    <state width="391" height="566" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580291504287" />
+    <state width="391" height="566" key="GridCell.Tab.0.center" timestamp="1580291504287">
       <screen x="1366" y="0" width="1360" height="728" />
     </state>
-    <state width="385" height="600" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580166518913" />
-    <state width="385" height="600" key="GridCell.Tab.0.right" timestamp="1580166518913">
+    <state width="391" height="566" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580291504287" />
+    <state width="391" height="566" key="GridCell.Tab.0.left" timestamp="1580291504287">
       <screen x="1366" y="0" width="1360" height="728" />
     </state>
-    <state width="385" height="600" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580166518913" />
+    <state width="391" height="566" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580291504287" />
+    <state width="391" height="566" key="GridCell.Tab.0.right" timestamp="1580291504287">
+      <screen x="1366" y="0" width="1360" height="728" />
+    </state>
+    <state width="391" height="566" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580291504287" />
+    <state x="1547" y="7" key="SettingsEditor" timestamp="1580241788492">
+      <screen x="1366" y="0" width="1360" height="728" />
+    </state>
+    <state x="1547" y="7" key="SettingsEditor/0.0.1366.728/1366.0.1360.728@1366.0.1360.728" timestamp="1580241788492" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/App.js</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

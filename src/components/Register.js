@@ -10,9 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import {isLogged} from '../components/isLogged';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
+import {getJwtToken} from "../helpers/jwt";
 
 
 const useStyles = makeStyles(theme => ({
@@ -123,7 +123,7 @@ export default function Register() {
     document.title = "Notes.BG | Регистрация";
 
 
-    if (!isLogged()) {
+    if (!getJwtToken()) {
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
@@ -216,6 +216,6 @@ export default function Register() {
             </Container>
         );
     } else {
-        window.location = '/';
+        window.location.href = '/';
     }
 }

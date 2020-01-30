@@ -15,6 +15,7 @@ import Login from './components/Login';
 import {createMuiTheme} from '@material-ui/core/styles';
 import Register from './components/Register';
 import Auth from './components/Auth';
+import Logout from "./components/Logout";
 
 const drawerWidth = 240;
 
@@ -77,6 +78,7 @@ export default function App() {
                                 <Auth>
                                     <Route path="/" exact component={Home}/>
                                     <Route path="/my/notes" component={Notes}/>
+                                    <Route path="/user/logout" component={Logout}/>
                                 </Auth>
                             </AnimatedSwitch>
                         </Typography>

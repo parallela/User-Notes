@@ -1,6 +1,5 @@
 import React from 'react';
 import {useState} from 'react';
-import {isLogged} from '../components/isLogged'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
+import {getJwtToken} from "../helpers/jwt";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -107,7 +107,7 @@ export default function Login() {
     document.title = "Notes.BG | Влизане";
 
 
-    if (!isLogged()) {
+    if (!getJwtToken()) {
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
@@ -179,6 +179,6 @@ export default function Login() {
             </Container>
         );
     } else {
-        window.location = '/';
+        window.location.href = '/';
     }
 }
